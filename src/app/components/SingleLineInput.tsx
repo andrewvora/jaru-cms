@@ -10,11 +10,14 @@ interface Props {
 
 export class SingleLineInput extends React.Component<Props, {}> {
     render() {
-        return <input 
-            type={this.props.type} 
-            name={this.props.name} 
-            value={this.props.value}
-            placeholder={this.props.hint}
-            onChange={ (e) => this.props.onChange(this.props.name, e) }/>
+        return <div className="input-group mb-3">
+                <input 
+                    type={this.props.type} 
+                    name={this.props.name} 
+                    value={this.props.value}
+                    placeholder={this.props.hint}
+                    onChange={ (e) => this.props.onChange(this.props.name, e) }
+                    className="form-control"/>
+            </div>
     }
 }

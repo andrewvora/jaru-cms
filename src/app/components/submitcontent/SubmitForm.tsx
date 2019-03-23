@@ -28,15 +28,25 @@ export class SubmitForm extends React.Component<Props, State> {
     private readonly session = new Session()
 
     setUpdated(set: QuestionSet) {
+        const enabled = 
+            set.title && 
+            set.difficulty &&
+            set.questions && set.questions.length > 0
+
         this.setState({ 
-            formEnabled: true,
+            formEnabled: enabled,
             questionSet: set 
         })
     }
 
-    private afterRequest() {
+    private onSuccessfulSubmission() {
         this.setState({ formEnabled: true })
         this.props.onSubmitted() 
+    }
+
+    private onFailedSubmission(error: any) {
+        this.setState({ formEnabled: true })
+        alert(`Failed to post content: ${error}`)
     }
 
     submit() {
@@ -47,7 +57,10 @@ export class SubmitForm extends React.Component<Props, State> {
         const result = mapper.mapToDtos(set)
 
         const config = {
-            headers: { 'Authorization': this.session.getAuthHeader() }
+            headers: { 
+                'Authorization': this.session.getAuthHeader(),
+                'Content-Type': 'application/json'
+            }
         }
 
         // create set on server
@@ -62,11 +75,14 @@ export class SubmitForm extends React.Component<Props, State> {
         const submitSetPromise = axios.post(submitUrl, setJson, config)
         const submitTextPromise = axios.post(batchCreateUrl, textResourcesJson, config)
 
+        console.log(setJson)
+        console.log(textResourcesJson)
+
         axios.all([submitSetPromise, submitTextPromise]).then(() => {
-             this.afterRequest()
+             this.onSuccessfulSubmission()
         }).catch((error) => {
             console.log(error)
-            this.afterRequest()
+            this.onFailedSubmission(error)
         })
     }
 
@@ -76,10 +92,15 @@ export class SubmitForm extends React.Component<Props, State> {
                 questionSet={this.props.questionSet} 
                 onSetUpdated={this.setUpdated.bind(this)}/>
 
-            <SubmitButton 
-                enabled={this.state.formEnabled} 
-                text='Submit' 
-                onClick={this.submit.bind(this)}/>
+            <p className="mb-4"></p>
+            
+            <button 
+                type="button"
+                disabled={!this.state.formEnabled}
+                onClick={this.submit.bind(this)}
+                className="btn btn-primary mb-4">
+                Submit    
+            </button>
         </form>
     }
 }

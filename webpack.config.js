@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 require('dotenv').config()
 
 module.exports = {
+    mode: process.env.NODE_ENV,
     entry: {
         app: ['./src/app/App.tsx', 'webpack-hot-middleware/client'],
         vendor: ['react', 'react-dom']
@@ -21,7 +22,8 @@ module.exports = {
     module: {
         rules: [
             { test: /\.(ts|tsx)$/, loader: 'ts-loader'},
-            { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' }
+            { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
+            { test: /\.css$/, use: ['style-loader', 'css-loader'] }
         ]
     },
     plugins: [

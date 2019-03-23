@@ -28,15 +28,22 @@ export class RadioGroup extends React.Component<Props, State> {
     render() {
         return <div>
             { this.props.options.map((option) => {
-                return <label>
-                    <input 
-                        type='radio'
-                        key={option} 
-                        value={option}
-                        checked={this.state.selectedOption === option}
-                        onChange={this.optionSelected.bind(this)}/>
-                        {option}
-                </label>  
+                return <div
+                        key={option+"container"} 
+                        className="form-check form-check-inline">
+                        <input 
+                                type="radio"
+                                key={option} 
+                                value={option}
+                                checked={this.state.selectedOption === option}
+                                onChange={this.optionSelected.bind(this)}
+                                className="form-check-input"/>
+                        <label 
+                            key={option + "label"}
+                            className="form-check-label">
+                            {option}
+                        </label>  
+                    </div>
             }) }
         </div>
     }

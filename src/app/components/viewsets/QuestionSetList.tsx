@@ -11,13 +11,13 @@ interface State {
     sets: QuestionSetDto[]
 }
 
-class AllSetsDto {
-    public questionSets: QuestionSetDto[]
-}
-
 class QuestionSetDto {
     public id: string
     public title: string
+}
+
+class LearningSetDto {
+    public sets: QuestionSetDto[]
 }
 
 export class QuestionSetList extends React.Component<Props, State> {
@@ -28,16 +28,17 @@ export class QuestionSetList extends React.Component<Props, State> {
     private readonly session = new Session()
 
     private fetchSets() {
-        const getSetsUrl = `${API_HOST}/api/v1/sets/all`
+        const getSetsUrl = `${API_HOST}/api/v1/full`
         const config = {
             headers: { 'Authorization': this.session.getAuthHeader() }
         }
         axios.get(getSetsUrl, config)
             .then((response) => {
-                const sets = response.data as AllSetsDto
+                const learningSet = response.data as LearningSetDto
+                console.log(learningSet)
                 this.setState((prevState) => {
                     return {
-                        sets: sets.questionSets || prevState.sets
+                        sets: learningSet.sets || prevState.sets
                     }
                 })
             })
@@ -66,17 +67,19 @@ export class QuestionSetList extends React.Component<Props, State> {
     }
 
     render() {
-        return <div>
-            {
-                this.state.sets.map((set) => {
-                    return <div>
-                        <p>{set.id}</p>
-                        <p>
-                            <a onClick={ () => this.deleteSet(set) }>Delete</a>
-                        </p>
-                    </div>
-                })
-            }
-        </div>
+        if (this.state.sets.length == 0) {
+            return <div className="mx-auto">No question sets found</div>
+        } else {
+            return this.state.sets.map((set) => {
+                return <div className="card mb-2 p-2" key={set.id}>
+                    <h3>{set.title}</h3>
+                    <p>{set.id}</p>
+                    <p>
+                        <a className="btn btn-secondary mr-1" onClick={ () => {} }>Edit</a>
+                        <a className="btn btn-danger" onClick={ () => this.deleteSet(set) }>Delete</a>
+                    </p>
+                </div>
+            })
+        }
     }
 }

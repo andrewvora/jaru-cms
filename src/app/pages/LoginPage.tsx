@@ -34,9 +34,11 @@ class LoginPage extends React.Component<Props, {}> {
     }
 
     render() {
-        return <div>
-            <h1>Sign In</h1>
-            <LoginForm onSignIn={this.signIn.bind(this)}/>
+        return <div className="container">
+            <div className="col-sm-8 mx-auto">
+                <h1 className="mb-4">Sign In</h1>
+                <LoginForm onSignIn={this.signIn.bind(this)}/>
+            </div>
         </div>
     }
 }

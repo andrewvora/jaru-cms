@@ -8,8 +8,9 @@ import { RadioGroup } from '../RadioGroup'
 import { NumberInput } from '../NumberInput'
 
 interface Props {
-    question: Question
-    onQuestionUpdated(question: Question): void
+    question: Question,
+    index: number,
+    onQuestionUpdated(index: number, question: Question): void
 }
 
 interface State {
@@ -40,7 +41,7 @@ export class QuestionForm extends React.Component<Props, State> {
             this.state.correctAnswerIndex,
             this.state.answers)
             
-        this.props.onQuestionUpdated(updatedQuestion)
+        this.props.onQuestionUpdated(this.props.index, updatedQuestion)
     }
 
     addAnswer() {
@@ -100,9 +101,11 @@ export class QuestionForm extends React.Component<Props, State> {
                 onChange={this.onFieldUpdated.bind(this)}/>
 
             <NumberInput
+                label="Correct Answer Index (0-based)"
                 name={ nameof<State>('correctAnswerIndex') }
                 min={-1}
                 max={100}
+                disabled={ this.state.questionType !== 'multiple_choice' }
                 value={ this.state.correctAnswerIndex }
                 onChange={this.onFieldUpdated.bind(this)}/>
 
@@ -110,17 +113,24 @@ export class QuestionForm extends React.Component<Props, State> {
                 options={QUESTION_TYPES}
                 onOptionSelected={this.onQuestionTypeSelected.bind(this)}/>
 
+            <h5 className="mt-4">
+                Answers
+                <button type="button" 
+                    className="btn btn-link" 
+                    onClick={this.addAnswer.bind(this)}>
+                    Add
+                </button>
+            </h5>
+
             <ul>
                 { this.state.answers.map((answer, index) => {
-                    return <li key={index}>
+                    return <div key={index}>
                         <AnswerForm
                             answer={answer}
                             onAnswerUpdated={this.answerUpdated.bind(this)}/>
-                    </li>
+                    </div>
                 }) }
             </ul>
-
-            <a onClick={this.addAnswer.bind(this)}>Add Answer</a>
         </div>
     }
 }

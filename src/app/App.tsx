@@ -5,6 +5,10 @@ import LoginPage from './pages/LoginPage'
 import SubmitPage from './pages/SubmitPage'
 import ViewPage from './pages/ViewPage'
 import { Session } from './session/Session'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import $ from 'jquery';
+import Popper from 'popper.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 const session = new Session()
 

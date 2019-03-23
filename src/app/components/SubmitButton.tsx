@@ -14,7 +14,8 @@ export class SubmitButton extends React.Component<Props, {}> {
     render() {
         return <button
             disabled={!this.props.enabled}
-            type='button'
+            type='submit'
+            className='btn btn-primary'
             value={this.props.text}
             onClick={ () => this.onClick() }>
                 {this.props.text}

@@ -12,11 +12,14 @@ interface Props {
 
 export class MultiLineInput extends React.Component<Props, {}> {
     render() {
-        return <textarea
-            name={this.props.name}
-            rows={ROWS}
-            value={this.props.field}
-            placeholder={this.props.hint}
-            onChange={ (e) => this.props.onChange(this.props.name, e) }/>
+        return <div className="input-group">
+                <textarea
+                    name={this.props.name}
+                    rows={ROWS}
+                    value={this.props.field}
+                    placeholder={this.props.hint}
+                    onChange={ (e) => this.props.onChange(this.props.name, e) }
+                    className="form-control"/>
+            </div> 
     }
 }

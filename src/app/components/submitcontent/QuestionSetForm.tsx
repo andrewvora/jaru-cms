@@ -96,17 +96,26 @@ export class QuestionSetForm extends React.Component<Props, State> {
                 options={ DIFFICULTIES }
                 onOptionSelected={this.onDifficultySelected.bind(this)}/>
 
+            <h4 className="mt-4">
+                Questions
+                <button 
+                    type="button"
+                    className="btn btn-link" 
+                    onClick={this.addQuestion.bind(this)}>
+                    Add
+                </button>
+            </h4>
+
             <ul>
                 { this.state.questions.map((question, index) => {
-                    return <li key={index}>
+                    return <div className="row" key={index}>
                         <QuestionForm
-                        question={question}
-                        onQuestionUpdated={this.questionUpdated.bind(this)}/>
-                    </li>
+                            index={index}
+                            question={question}
+                            onQuestionUpdated={this.questionUpdated.bind(this)}/>
+                    </div>
                 }) }
             </ul>
-
-            <a onClick={this.addQuestion.bind(this)}>Add Question</a>
         </div>
     }
 }

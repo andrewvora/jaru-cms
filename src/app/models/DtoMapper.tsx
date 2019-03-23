@@ -28,7 +28,7 @@ export class DtoMapper {
             set.questions.forEach((question) => {
                 const dtoPair = this.mapToQuestionDto(question)
                 questionDtos.push(dtoPair.dto)
-                textDtos.push(dtoPair.textDtos)
+                textDtos.concat(dtoPair.textDtos)
             })
         }
 
@@ -40,7 +40,7 @@ export class DtoMapper {
             questions: questionDtos
         }
 
-        const textResourceDtos: any[] = [descriptionTextDto, titleTextDto]
+        const textResourceDtos: any[] = [titleTextDto, descriptionTextDto]
             .concat(textDtos)
 
         return new DtoBundle(setDto, textResourceDtos)
@@ -51,27 +51,29 @@ export class DtoMapper {
         const descriptionTextResource = this.createTextResourceDto(question.transcript)
 
         const answersDto: any[] = []
-        const answerTextDto: any[] = []
+        const answerTextDtos: any[] = []
         if (question.answers && question.answers.length > 0) {
             question.answers.forEach((answer) => {
                 const answerPair = this.mapToAnswerDto(answer)
                 answersDto.push(answerPair.dto)
-                answerTextDto.push(answerPair.textDtos)
+                answerTextDtos.concat(answerPair.textDtos)
             })
         }
 
+        const correctAnswer = answersDto[question.correctAnswerIndex]
+        const correctAnswerId = correctAnswer ? correctAnswer.answerId : undefined
         const dto = {
             questionId: uuid(),
             textResName: questionTextResource.resourceName,
             transcriptionResName: descriptionTextResource.resourceName,
-            questionType: '', // TODO
-            correctAnswerId: '', // TODO
+            questionType: question.questionType,
+            correctAnswerId: correctAnswerId,
             answers: answersDto
         }
 
         // collect text resource DTOs into one array
         const textDtos = [questionTextResource, descriptionTextResource]
-            .concat(answerTextDto)
+            .concat(answerTextDtos)
 
         return new Pair(dto, textDtos)
     }

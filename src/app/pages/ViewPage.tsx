@@ -6,12 +6,14 @@ interface Props extends RouteComponentProps {}
 
 class ViewPage extends React.Component<Props, {}> {
     render() {
-        return <div>
-            <h1>View</h1>
-            <a href='/submit'>
-                + Add
-            </a>
-            <QuestionSetList/>
+        return <div className="container">
+            <div className="col-sm-8 mx-auto">
+                <h1 className="mb-2">View</h1>
+                <a className="btn btn-primary mb-4" href='/submit'>
+                    + Add
+                </a>
+                <QuestionSetList/>
+            </div>
         </div>
     }
 }
