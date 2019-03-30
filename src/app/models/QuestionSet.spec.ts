@@ -1,6 +1,5 @@
 import { QuestionSet } from "./QuestionSet"
 import { Question } from "./Question"
-import { Answer } from "./Answer"
 import { expect } from "chai"
 import { mock } from "ts-mockito"
 import "mocha"
