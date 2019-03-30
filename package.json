@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --require ts-node/register src/**/**.spec.ts*",
     "build": "./node_modules/.bin/webpack",
     "start": "npm run build && node server.js"
   },
@@ -19,6 +19,7 @@
     "@types/react-dom": "^16.0.11",
     "@types/react-router-dom": "^4.3.1",
     "@types/uuid": "^3.4.4",
+    "acorn": "^6.1.1",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.3.1",
@@ -45,6 +46,14 @@
     "webpack-hot-middleware": "^2.24.3"
   },
   "devDependencies": {
-    "eslint": "^5.10.0"
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "chai": "^4.2.0",
+    "dirty-chai": "^2.0.1",
+    "eslint": "^5.10.0",
+    "mocha": "^6.0.2",
+    "proxyquire": "^2.1.0",
+    "ts-mockito": "^2.3.1",
+    "ts-node": "^8.0.3"
   }
 }
