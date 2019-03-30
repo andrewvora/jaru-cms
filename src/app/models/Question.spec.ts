@@ -10,10 +10,10 @@ describe('constructor', () => {
         const questionType = "multiple_choice"
         const transcript = "A typical question asked with no sincerity"
         const correctAnswerIndex = 2
-        const answer1 = new Answer("1")
-        const answer2 = new Answer("2")
+        const answer1 = Answer.create("1")
+        const answer2 = Answer.create("2")
         const answers = [answer1, answer2]
-        const question = new Question(
+        const question = Question.create(
             text,
             transcript, 
             questionType, 

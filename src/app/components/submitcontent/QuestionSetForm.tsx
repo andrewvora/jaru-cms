@@ -38,6 +38,16 @@ export class QuestionSetForm extends React.Component<Props, State> {
         this.props.onSetUpdated(updatedSet)
     }
 
+    removeQuestion(index: number) {
+        this.setState((prevState) => {
+            const updatedQuestions = prevState.questions.slice()
+            updatedQuestions.splice(index, 1)
+            return {
+                questions: updatedQuestions
+            }
+        }, this.stateUpdated)
+    }
+
     addQuestion() {
         this.setState((prevState) => {
             const placeholder = Question.create('', '', '', -1, [])
@@ -108,14 +118,19 @@ export class QuestionSetForm extends React.Component<Props, State> {
 
             <ul>
                 { this.state.questions.map((question, index) => {
-                    return <div className="row" key={index}>
+                    return <div className="row" key={question.key}>
                         <QuestionForm
                             index={index}
                             question={question}
+                            onRemoveQuestion={this.removeQuestion.bind(this)}
                             onQuestionUpdated={this.questionUpdated.bind(this)}/>
                     </div>
                 }) }
             </ul>
+
+            <button type="button" 
+                className="ml-3 btn btn-sm btn-outline-primary"
+                onClick={this.addQuestion.bind(this)}>Add Question</button>
         </div>
     }
 }

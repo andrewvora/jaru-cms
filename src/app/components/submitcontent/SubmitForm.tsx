@@ -15,42 +15,58 @@ interface Props {
 
 interface State {
     questionSet: QuestionSet,
-    formEnabled: boolean
+    canSubmit: boolean
 }
 
 export class SubmitForm extends React.Component<Props, State> {
 
     state: Readonly<State> = {
         questionSet: undefined,
-        formEnabled: false
+        canSubmit: false
     }
 
     private readonly session = new Session()
 
     setUpdated(set: QuestionSet) {
-        const enabled = 
+        let enabled = 
             set.title && 
             set.difficulty &&
-            set.questions && set.questions.length > 0
+            set.questions && 
+            set.questions.length > 0
+
+        set.questions.forEach((question) => {
+            enabled = 
+                enabled &&
+                question.questionType &&
+                question.questionType.length > 0
+                question.question &&
+                question.question.length > 0
+
+            question.answers.forEach((answer) => {
+                enabled = enabled &&
+                    answer.text &&
+                    answer.text.length > 0
+            })
+        })
 
         this.setState({ 
-            formEnabled: enabled,
+            canSubmit: enabled,
             questionSet: set 
         })
     }
 
     private onSuccessfulSubmission() {
-        this.setState({ formEnabled: true })
+        this.setState({ canSubmit: true })
         this.props.onSubmitted() 
     }
 
     private onFailedSubmission(error: any) {
-        this.setState({ formEnabled: true })
+        this.setState({ canSubmit: true })
         alert(`Failed to post content: ${error}`)
     }
 
     submit() {
-        this.setState({ formEnabled: false })
+        this.setState({ canSubmit: false })
 
         const set = this.state.questionSet
         const mapper = new DtoMapper()
@@ -96,7 +112,7 @@ export class SubmitForm extends React.Component<Props, State> {
             
             <button 
                 type="button"
-                disabled={!this.state.formEnabled}
+                disabled={!this.state.canSubmit}
                 onClick={this.submit.bind(this)}
                 className="btn btn-primary mb-4">
                 Submit    

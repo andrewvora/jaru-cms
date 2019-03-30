@@ -11,7 +11,7 @@ describe('constructor', () => {
         const description = "A set of questions"
         const question = mock(Question)
         const questions = [question]
-        const set = new QuestionSet(
+        const set = QuestionSet.create(
             difficulty,
             title,
             description,

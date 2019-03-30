@@ -11,6 +11,7 @@ interface Props {
     question: Question,
     index: number,
     onQuestionUpdated(index: number, question: Question): void
+    onRemoveQuestion(index: number): void
 }
 
 interface State {
@@ -40,8 +41,14 @@ export class QuestionForm extends React.Component<Props, State> {
             this.state.transcript,
             this.state.correctAnswerIndex,
             this.state.answers)
+
+        updatedQuestion.key = this.props.question.key
             
         this.props.onQuestionUpdated(this.props.index, updatedQuestion)
+    }
+
+    removeQuestion() {
+        this.props.onRemoveQuestion(this.props.index)
     }
 
     addAnswer() {
@@ -49,6 +56,17 @@ export class QuestionForm extends React.Component<Props, State> {
             const placeholderAnswer = Answer.create('')
             const updatedAnswers = prevState.answers.slice()
             updatedAnswers.push(placeholderAnswer)
+
+            return {
+                answers: updatedAnswers
+            }
+        }, this.stateUpdated)
+    }
+
+    removeAnswer(index: number) {
+        this.setState((prevState) => {
+            const updatedAnswers = prevState.answers.slice()
+            updatedAnswers.splice(index, 1)
 
             return {
                 answers: updatedAnswers
@@ -86,6 +104,14 @@ export class QuestionForm extends React.Component<Props, State> {
 
     render() {
         return <div>
+            <h5>
+                Question {this.props.index + 1}
+                <button 
+                    type="button" 
+                    className="float-right btn btn-sm btn-link"
+                    onClick={this.removeQuestion.bind(this)}>Delete</button>
+            </h5>
+
             <SingleLineInput
                 type='text'
                 name={ nameof<State>('question') }
@@ -124,13 +150,17 @@ export class QuestionForm extends React.Component<Props, State> {
 
             <ul>
                 { this.state.answers.map((answer, index) => {
-                    return <div key={index}>
+                    return <div key={answer.key}>
                         <AnswerForm
                             answer={answer}
+                            index={index}
+                            onRemoveAnswer={this.removeAnswer.bind(this)}
                             onAnswerUpdated={this.answerUpdated.bind(this)}/>
                     </div>
                 }) }
             </ul>
+
+            <div className="border-top my-4"/>
         </div>
     }
 }
