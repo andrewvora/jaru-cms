@@ -4,7 +4,7 @@ import { expect } from "chai"
 import "mocha"
 
 
-describe('constructor', () => {
+describe('Question', () => {
     it('should set all fields', () => {
         const text = "How are you?"
         const questionType = "multiple_choice"
@@ -14,14 +14,14 @@ describe('constructor', () => {
         const answer2 = Answer.create("2")
         const answers = [answer1, answer2]
         const question = Question.create(
+            questionType, 
             text,
             transcript, 
-            questionType, 
             correctAnswerIndex, 
             answers)
 
-        expect(question.question).to.equal(text)
-        expect(question.transcript).to.equal(transcript)
+        expect(question.text).to.equal(text)
+        expect(question.transcription).to.equal(transcript)
         expect(question.questionType).to.equal(questionType)
         expect(question.correctAnswerIndex).to.equal(correctAnswerIndex)
         expect(question.answers[0]).to.equal(answer1)

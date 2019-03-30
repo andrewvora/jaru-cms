@@ -1,24 +1,21 @@
 import * as React from 'react'
-import { RouteComponentProps } from 'react-router-dom'
 import axios from 'axios'
 import { Session } from '../../session/Session'
+import { QuestionSet } from '../../models/QuestionSet'
+import { v4 as uuid } from "uuid"
 
 declare var API_HOST: string
 
-interface Props extends RouteComponentProps {
+interface Props {
+    openSet(set: QuestionSet): void
 }
 
 interface State {
-    sets: QuestionSetDto[]
-}
-
-class QuestionSetDto {
-    public id: string
-    public title: string
+    sets: QuestionSet[]
 }
 
 class LearningSetDto {
-    public sets: QuestionSetDto[]
+    public sets: QuestionSet[]
 }
 
 export class QuestionSetList extends React.Component<Props, State> {
@@ -52,13 +49,11 @@ export class QuestionSetList extends React.Component<Props, State> {
         this.fetchSets()
     }
 
-    openSet(set: QuestionSetDto) {
-        this.props.history.push('submit', {
-            set: set
-        })
+    openSet(set: QuestionSet) {
+        this.props.openSet(set)
     }
 
-    deleteSet(set: QuestionSetDto) {
+    deleteSet(set: QuestionSet) {
         const config = {
             headers: { 'Authorization': this.session.getAuthHeader() }
         }

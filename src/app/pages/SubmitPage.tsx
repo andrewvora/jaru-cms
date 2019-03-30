@@ -14,10 +14,9 @@ class SubmitPage extends React.Component<Props, {}> {
     }
 
     getQuestionSet(): QuestionSet {
-        return  QuestionSet.create('', '', '', [])
         const passedInState = this.props.location.state
-        return this.props.location.state.set ||
-        QuestionSet.create('', '', '', [])
+        return passedInState && this.props.location.state.set ||
+            QuestionSet.create('', '', '', [])
            
     }
 

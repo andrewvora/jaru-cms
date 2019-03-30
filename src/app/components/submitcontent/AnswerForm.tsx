@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { RemovableSingleLineInput } from '../RemovableSingleLineInput'
-import { nameof } from '../../util/Util'
 import { Answer } from '../../models/Answer'
 
 interface Props {
@@ -10,22 +9,13 @@ interface Props {
     onRemoveAnswer(index: number): void
 }
 
-interface State {
-    value: string
-}
-
-export class AnswerForm extends React.Component<Props, State> {
-    state: Readonly<State> = {
-        value: this.props.answer.text || ""
-    }
+export class AnswerForm extends React.Component<Props, {}> {
 
     onFieldUpdated(name: string, event: React.FormEvent<HTMLInputElement>) {
         const value = event.currentTarget.value
-        this.setState({ [name]: value } as any, () => {
-            const answer = Answer.create(value)
+        const answer = Answer.create(value)
             answer.key = this.props.answer.key
             this.props.onAnswerUpdated(this.props.index, answer)
-        })
     }
 
     onRemoveClicked() {
@@ -36,8 +26,8 @@ export class AnswerForm extends React.Component<Props, State> {
     render() {
         return <RemovableSingleLineInput
             type='text' 
-            name={ nameof<State>('value') } 
-            value={ this.state.value } 
+            name='value'
+            value={ this.props.answer.text } 
             hint='ex. Hello' 
             onRemove={this.onRemoveClicked.bind(this)}
             onChange={this.onFieldUpdated.bind(this)}/>

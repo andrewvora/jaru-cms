@@ -27,8 +27,8 @@ const QUESTION_TYPES = ['single_input', 'multiple_choice', 'free_form']
 export class QuestionForm extends React.Component<Props, State> {
 
     state: Readonly<State> = {
-        question: this.props.question.question,
-        transcript: this.props.question.transcript,
+        question: this.props.question.text,
+        transcript: this.props.question.transcription,
         questionType: this.props.question.questionType,
         correctAnswerIndex: this.props.question.correctAnswerIndex,
         answers: this.props.question.answers
@@ -136,6 +136,7 @@ export class QuestionForm extends React.Component<Props, State> {
                 onChange={this.onFieldUpdated.bind(this)}/>
 
             <RadioGroup 
+                selected={this.state.questionType}
                 options={QUESTION_TYPES}
                 onOptionSelected={this.onQuestionTypeSelected.bind(this)}/>
 
@@ -150,7 +151,7 @@ export class QuestionForm extends React.Component<Props, State> {
 
             <ul>
                 { this.state.answers.map((answer, index) => {
-                    return <div key={answer.key}>
+                    return <div key={answer.key || answer.id}>
                         <AnswerForm
                             answer={answer}
                             index={index}

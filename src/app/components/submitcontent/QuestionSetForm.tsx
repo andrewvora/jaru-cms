@@ -87,6 +87,7 @@ export class QuestionSetForm extends React.Component<Props, State> {
     }
 
     render() {
+        console.log(this.props.questionSet)
         return <div>
             <SingleLineInput
                 type='text'
@@ -103,6 +104,7 @@ export class QuestionSetForm extends React.Component<Props, State> {
                 onChange={this.onFieldUpdated.bind(this)} />
 
             <RadioGroup
+                selected={this.state.difficulty}
                 options={ DIFFICULTIES }
                 onOptionSelected={this.onDifficultySelected.bind(this)}/>
 
@@ -118,7 +120,7 @@ export class QuestionSetForm extends React.Component<Props, State> {
 
             <ul>
                 { this.state.questions.map((question, index) => {
-                    return <div className="row" key={question.key}>
+                    return <div className="row" key={question.key || question.id}>
                         <QuestionForm
                             index={index}
                             question={question}

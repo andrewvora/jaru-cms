@@ -2,10 +2,13 @@ import { v4 as uuid } from "uuid"
 
 export class Answer {
 
-    constructor(public text: string,
-                public key: string) {}
+    public id: string
+    public key: string = uuid()
+
+    constructor(public text: string) 
+    {}
 
     static create(text: string) {
-        return new Answer(text, uuid())
+        return new Answer(text)
     }
 }

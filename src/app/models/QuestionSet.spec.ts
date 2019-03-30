@@ -4,7 +4,7 @@ import { expect } from "chai"
 import { mock } from "ts-mockito"
 import "mocha"
 
-describe('constructor', () => {
+describe('QuestionSet', () => {
     it('should set all fields', () => {
         const difficulty = "advanced"
         const title = "Set 1"

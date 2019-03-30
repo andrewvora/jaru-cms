@@ -3,10 +3,12 @@ import { v4 as uuid } from "uuid"
 
 export class Question {
 
+    public id: string
+    public key: string = uuid()
+
     constructor(
-        public key: string,
-        public question: string,
-        public transcript: string,
+        public text: string,
+        public transcription: string,
         public questionType: string,
         public correctAnswerIndex: number,
         public answers: Answer[]
@@ -19,7 +21,6 @@ export class Question {
         correctAnswerIndex: number,
         answers: Answer[]) {
         return new Question(
-            uuid(),
             question, 
             transcript, 
             questionType, 

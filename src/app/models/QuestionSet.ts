@@ -2,6 +2,8 @@ import { Question } from "./Question";
 
 export class QuestionSet {
 
+    public id: string
+
     constructor(
         public difficulty: string,
         public title: string,

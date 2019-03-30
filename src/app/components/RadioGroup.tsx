@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 interface Props {
+    selected: string
     options: string[]
     onOptionSelected(value: string): void
 }
@@ -12,7 +13,7 @@ interface State {
 export class RadioGroup extends React.Component<Props, State> {
 
     state: Readonly<State> = {
-        selectedOption: ''
+        selectedOption: this.props.selected
     }
 
     optionSelected(event: React.FormEvent<HTMLInputElement>) {

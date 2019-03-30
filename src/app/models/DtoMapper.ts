@@ -33,7 +33,7 @@ export class DtoMapper {
         }
 
         const setDto = {
-            setId: uuid(),
+            setId: set.id || uuid(),
             difficulty: set.difficulty,
             titleResourceName: titleTextDto.resourceName,
             descriptionResourceName: descriptionTextDto.resourceName,
@@ -47,8 +47,8 @@ export class DtoMapper {
     }
 
     private mapToQuestionDto(question: Question): Pair {
-        const questionTextResource = this.createTextResourceDto(question.question)
-        const descriptionTextResource = this.createTextResourceDto(question.transcript)
+        const questionTextResource = this.createTextResourceDto(question.text)
+        const descriptionTextResource = this.createTextResourceDto(question.transcription)
 
         const answersDto: any[] = []
         const answerTextDtos: any[] = []
@@ -63,7 +63,7 @@ export class DtoMapper {
         const correctAnswer = answersDto[question.correctAnswerIndex]
         const correctAnswerId = correctAnswer ? correctAnswer.answerId : undefined
         const dto = {
-            questionId: uuid(),
+            questionId: question.id || uuid(),
             textResName: questionTextResource.resourceName,
             transcriptionResName: descriptionTextResource.resourceName,
             questionType: question.questionType,
@@ -82,7 +82,7 @@ export class DtoMapper {
         const answerTextResourceDto = this.createTextResourceDto(answer.text)
         const textDtos = [answerTextResourceDto]
         const dto = {
-            answerId: uuid(),
+            answerId: answer.id || uuid(),
             textResName: answerTextResourceDto.resourceName
         }
 

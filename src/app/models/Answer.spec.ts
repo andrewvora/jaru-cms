@@ -2,7 +2,7 @@ import { Answer } from "./Answer"
 import { expect } from "chai"
 import "mocha"
 
-describe('constructor', () => {
+describe('Answer', () => {
     it('should set fields', () => {
         const text = "This is the answer"
         const answer = Answer.create(text)

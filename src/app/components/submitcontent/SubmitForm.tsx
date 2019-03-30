@@ -39,8 +39,8 @@ export class SubmitForm extends React.Component<Props, State> {
                 enabled &&
                 question.questionType &&
                 question.questionType.length > 0
-                question.question &&
-                question.question.length > 0
+                question.text &&
+                question.text.length > 0
 
             question.answers.forEach((answer) => {
                 enabled = enabled &&
