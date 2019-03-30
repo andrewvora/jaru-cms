@@ -1,11 +1,12 @@
 import * as React from 'react'
-import { QuestionSet } from '../../models/QuestionSet'
+import { RouteComponentProps } from 'react-router-dom'
 import axios from 'axios'
 import { Session } from '../../session/Session'
 
 declare var API_HOST: string
 
-interface Props {}
+interface Props extends RouteComponentProps {
+}
 
 interface State {
     sets: QuestionSetDto[]
@@ -51,6 +52,12 @@ export class QuestionSetList extends React.Component<Props, State> {
         this.fetchSets()
     }
 
+    openSet(set: QuestionSetDto) {
+        this.props.history.push('submit', {
+            set: set
+        })
+    }
+
     deleteSet(set: QuestionSetDto) {
         const config = {
             headers: { 'Authorization': this.session.getAuthHeader() }
@@ -75,7 +82,7 @@ export class QuestionSetList extends React.Component<Props, State> {
                     <h3>{set.title}</h3>
                     <p>{set.id}</p>
                     <p>
-                        <a className="btn btn-secondary mr-1" onClick={ () => {} }>Edit</a>
+                        <a className="btn btn-secondary mr-1" onClick={ () => this.openSet(set) }>Edit</a>
                         <a className="btn btn-danger" onClick={ () => this.deleteSet(set) }>Delete</a>
                     </p>
                 </div>

@@ -13,12 +13,20 @@ class SubmitPage extends React.Component<Props, {}> {
         this.props.history.push('view');
     }
 
+    getQuestionSet(): QuestionSet {
+        return  QuestionSet.create('', '', '', [])
+        const passedInState = this.props.location.state
+        return this.props.location.state.set ||
+        QuestionSet.create('', '', '', [])
+           
+    }
+
     render() {
         return <div className="container">
             <div className="col-sm-8 mx-auto">
                 <h1 className="mb-4">Create Question Set</h1>
                 <SubmitForm 
-                    questionSet={QuestionSet.create('', '', '', [])}
+                    questionSet={this.getQuestionSet()}
                     onSubmitted={this.onSubmitted.bind(this)}/>
             </div>
         </div>
