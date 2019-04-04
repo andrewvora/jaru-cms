@@ -87,7 +87,6 @@ export class QuestionSetForm extends React.Component<Props, State> {
     }
 
     render() {
-        console.log(this.props.questionSet)
         return <div>
             <SingleLineInput
                 type='text'

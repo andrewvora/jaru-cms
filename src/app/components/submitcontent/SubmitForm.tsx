@@ -37,8 +37,8 @@ export class SubmitForm extends React.Component<Props, State> {
         set.questions.forEach((question) => {
             enabled = 
                 enabled &&
-                question.questionType &&
-                question.questionType.length > 0
+                question.type &&
+                question.type.length > 0
                 question.text &&
                 question.text.length > 0
 
@@ -70,7 +70,7 @@ export class SubmitForm extends React.Component<Props, State> {
 
         const set = this.state.questionSet
         const mapper = new DtoMapper()
-        const result = mapper.mapToDtos(set)
+        const result = mapper.mapToDtoBundle(set)
 
         const config = {
             headers: { 
@@ -91,8 +91,8 @@ export class SubmitForm extends React.Component<Props, State> {
         const submitSetPromise = axios.post(submitUrl, setJson, config)
         const submitTextPromise = axios.post(batchCreateUrl, textResourcesJson, config)
 
-        console.log(setJson)
-        console.log(textResourcesJson)
+        console.log("set body", setJson)
+        console.log("text body", textResourcesJson)
 
         axios.all([submitSetPromise, submitTextPromise]).then(() => {
              this.onSuccessfulSubmission()

@@ -2,7 +2,7 @@ import * as React from 'react'
 import axios from 'axios'
 import { Session } from '../../session/Session'
 import { QuestionSet } from '../../models/QuestionSet'
-import { v4 as uuid } from "uuid"
+import { DtoMapper } from '../../models/DtoMapper'
 
 declare var API_HOST: string
 
@@ -12,10 +12,6 @@ interface Props {
 
 interface State {
     sets: QuestionSet[]
-}
-
-class LearningSetDto {
-    public sets: QuestionSet[]
 }
 
 export class QuestionSetList extends React.Component<Props, State> {
@@ -32,11 +28,10 @@ export class QuestionSetList extends React.Component<Props, State> {
         }
         axios.get(getSetsUrl, config)
             .then((response) => {
-                const learningSet = response.data as LearningSetDto
-                console.log(learningSet)
+                const questionSets = new DtoMapper().mapFromDtos(response.data)
                 this.setState((prevState) => {
                     return {
-                        sets: learningSet.sets || prevState.sets
+                        sets: questionSets || prevState.sets
                     }
                 })
             })
@@ -58,7 +53,6 @@ export class QuestionSetList extends React.Component<Props, State> {
             headers: { 'Authorization': this.session.getAuthHeader() }
         }
         const deleteSetUrl  = `${API_HOST}/content/v1/set/${set.id}`
-        console.log(deleteSetUrl)
         axios.delete(deleteSetUrl, config)
             .then(() => {
                 this.fetchSets()

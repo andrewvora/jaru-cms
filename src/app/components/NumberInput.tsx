@@ -24,6 +24,7 @@ export class NumberInput extends React.Component<Props, {}> {
                 max={this.props.max}
                 name={this.props.name}
                 disabled={this.props.disabled}
+                value={this.props.value}
                 onChange={(e) => this.props.onChange(this.props.name, e)}
                 className="form-control"
             />

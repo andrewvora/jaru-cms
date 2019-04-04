@@ -9,6 +9,32 @@ class Pair {
         public textDtos: any[]) {}
 }
 
+export class LearningSetDto {
+    public sets: QuestionSetDto[]
+}
+
+export class QuestionDto {
+    public id: string
+    public correctAnswerId: string
+    public text: string
+    public transcription: string
+    public type: string
+    public answers: AnswerDto[]
+}
+
+export class QuestionSetDto {
+    public difficulty: string
+    public title: string
+    public description: string
+    public questions: QuestionDto[]
+    public id: string
+}
+
+export class AnswerDto {
+    public id: string
+    public text: string
+}
+
 export class DtoBundle {
     constructor(
         public setDto: any,
@@ -18,7 +44,41 @@ export class DtoBundle {
 
 export class DtoMapper {
 
-    mapToDtos(set: QuestionSet): DtoBundle {
+    mapFromDtos(learningSet: LearningSetDto): QuestionSet[] {
+        const questionSets: QuestionSet[] = []
+        learningSet.sets.forEach((questionSetDto) => {
+            const questionSet = QuestionSet.create(
+                questionSetDto.difficulty,
+                questionSetDto.title,
+                questionSetDto.description,
+                []
+            )
+            questionSet.id = questionSetDto.id
+            questionSetDto.questions.forEach((questionDto) => {
+                const question = Question.create(
+                    questionDto.type,
+                    questionDto.text,
+                    questionDto.transcription,
+                    -1,
+                    []
+                )
+                question.correctAnswerId = questionDto.correctAnswerId
+                question.id = questionDto.id
+
+                questionDto.answers.forEach((answerDto) => {
+                    const answer = Answer.create(answerDto.text)
+                    answer.id = answerDto.id
+                    question.answers.push(answer)
+                })
+                question.updateCorrectAnswerIndex()
+                questionSet.questions.push(question)
+            })
+            questionSets.push(questionSet)
+        })
+        return questionSets
+    }
+
+    mapToDtoBundle(set: QuestionSet): DtoBundle {
         const descriptionTextDto = this.createTextResourceDto(set.description)
         const titleTextDto = this.createTextResourceDto(set.title)
 
@@ -28,7 +88,7 @@ export class DtoMapper {
             set.questions.forEach((question) => {
                 const dtoPair = this.mapToQuestionDto(question)
                 questionDtos.push(dtoPair.dto)
-                textDtos.concat(dtoPair.textDtos)
+                textDtos.push(...dtoPair.textDtos)
             })
         }
 
@@ -43,6 +103,8 @@ export class DtoMapper {
         const textResourceDtos: any[] = [titleTextDto, descriptionTextDto]
             .concat(textDtos)
 
+        console.log("textDtos=", textDtos)
+        console.log("textResourceDtos=", textResourceDtos)
         return new DtoBundle(setDto, textResourceDtos)
     }
 
@@ -56,7 +118,7 @@ export class DtoMapper {
             question.answers.forEach((answer) => {
                 const answerPair = this.mapToAnswerDto(answer)
                 answersDto.push(answerPair.dto)
-                answerTextDtos.concat(answerPair.textDtos)
+                answerTextDtos.push(...answerPair.textDtos)
             })
         }
 
@@ -66,7 +128,7 @@ export class DtoMapper {
             questionId: question.id || uuid(),
             textResName: questionTextResource.resourceName,
             transcriptionResName: descriptionTextResource.resourceName,
-            questionType: question.questionType,
+            questionType: question.type,
             correctAnswerId: correctAnswerId,
             answers: answersDto
         }

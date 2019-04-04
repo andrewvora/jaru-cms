@@ -29,7 +29,7 @@ export class QuestionForm extends React.Component<Props, State> {
     state: Readonly<State> = {
         question: this.props.question.text,
         transcript: this.props.question.transcription,
-        questionType: this.props.question.questionType,
+        questionType: this.props.question.type,
         correctAnswerIndex: this.props.question.correctAnswerIndex,
         answers: this.props.question.answers
     }
