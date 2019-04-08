@@ -14,8 +14,9 @@ export class AnswerForm extends React.Component<Props, {}> {
     onFieldUpdated(name: string, event: React.FormEvent<HTMLInputElement>) {
         const value = event.currentTarget.value
         const answer = Answer.create(value)
-            answer.key = this.props.answer.key
-            this.props.onAnswerUpdated(this.props.index, answer)
+        answer.id = this.props.answer.id
+        answer.key = this.props.answer.key
+        this.props.onAnswerUpdated(this.props.index, answer)
     }
 
     onRemoveClicked() {

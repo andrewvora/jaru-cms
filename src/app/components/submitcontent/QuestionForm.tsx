@@ -43,6 +43,7 @@ export class QuestionForm extends React.Component<Props, State> {
             this.state.answers)
 
         updatedQuestion.key = this.props.question.key
+        updatedQuestion.id = this.props.question.id
             
         this.props.onQuestionUpdated(this.props.index, updatedQuestion)
     }

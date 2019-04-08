@@ -36,16 +36,16 @@ export class SubmitForm extends React.Component<Props, State> {
 
         set.questions.forEach((question) => {
             enabled = 
-                enabled &&
-                question.type &&
-                question.type.length > 0
-                question.text &&
-                question.text.length > 0
+            enabled &&
+            question.type &&
+            question.type.length > 0
+            question.text &&
+            question.text.length > 0
 
             question.answers.forEach((answer) => {
                 enabled = enabled &&
-                    answer.text &&
-                    answer.text.length > 0
+                answer.text &&
+                answer.text.length > 0
             })
         })
 
@@ -90,9 +90,6 @@ export class SubmitForm extends React.Component<Props, State> {
 
         const submitSetPromise = axios.post(submitUrl, setJson, config)
         const submitTextPromise = axios.post(batchCreateUrl, textResourcesJson, config)
-
-        console.log("set body", setJson)
-        console.log("text body", textResourcesJson)
 
         axios.all([submitSetPromise, submitTextPromise]).then(() => {
              this.onSuccessfulSubmission()

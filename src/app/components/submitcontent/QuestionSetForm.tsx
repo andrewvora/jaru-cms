@@ -35,6 +35,7 @@ export class QuestionSetForm extends React.Component<Props, State> {
             this.state.description,
             this.state.questions
         )
+        updatedSet.id = this.props.questionSet.id
         this.props.onSetUpdated(updatedSet)
     }
 
