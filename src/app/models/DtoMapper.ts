@@ -59,10 +59,8 @@ export class DtoMapper {
                     questionDto.type,
                     questionDto.text,
                     questionDto.transcription,
-                    -1,
                     []
                 )
-                question.correctAnswerId = questionDto.correctAnswerId
                 question.id = questionDto.id
 
                 questionDto.answers.forEach((answerDto) => {
@@ -70,7 +68,6 @@ export class DtoMapper {
                     answer.id = answerDto.id
                     question.answers.push(answer)
                 })
-                question.updateCorrectAnswerIndex()
                 questionSet.questions.push(question)
             })
             questionSets.push(questionSet)
@@ -103,8 +100,6 @@ export class DtoMapper {
         const textResourceDtos: any[] = [titleTextDto, descriptionTextDto]
             .concat(textDtos)
 
-        console.log("textDtos=", textDtos)
-        console.log("textResourceDtos=", textResourceDtos)
         return new DtoBundle(setDto, textResourceDtos)
     }
 
@@ -122,14 +117,11 @@ export class DtoMapper {
             })
         }
 
-        const correctAnswer = answersDto[question.correctAnswerIndex]
-        const correctAnswerId = correctAnswer ? correctAnswer.answerId : undefined
         const dto = {
             questionId: question.id || uuid(),
             textResName: questionTextResource.resourceName,
             transcriptionResName: descriptionTextResource.resourceName,
             questionType: question.type,
-            correctAnswerId: correctAnswerId,
             answers: answersDto
         }
 

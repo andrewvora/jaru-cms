@@ -51,7 +51,7 @@ export class QuestionSetForm extends React.Component<Props, State> {
 
     addQuestion() {
         this.setState((prevState) => {
-            const placeholder = Question.create('', '', '', -1, [])
+            const placeholder = Question.create('', '', '', [])
             const updatedQuestions = prevState.questions.slice()
             updatedQuestions.push(placeholder)
             return {

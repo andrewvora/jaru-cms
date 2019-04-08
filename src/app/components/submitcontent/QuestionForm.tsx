@@ -18,7 +18,6 @@ interface State {
     question: string,
     transcript: string,
     questionType: string,
-    correctAnswerIndex: number,
     answers: Answer[]
 }
 
@@ -30,7 +29,6 @@ export class QuestionForm extends React.Component<Props, State> {
         question: this.props.question.text,
         transcript: this.props.question.transcription,
         questionType: this.props.question.type,
-        correctAnswerIndex: this.props.question.correctAnswerIndex,
         answers: this.props.question.answers
     }
 
@@ -39,7 +37,6 @@ export class QuestionForm extends React.Component<Props, State> {
             this.state.questionType,
             this.state.question,
             this.state.transcript,
-            this.state.correctAnswerIndex,
             this.state.answers)
 
         updatedQuestion.key = this.props.question.key
@@ -125,15 +122,6 @@ export class QuestionForm extends React.Component<Props, State> {
                 name={ nameof<State>('transcript') }
                 value={ this.state.transcript }
                 hint='Transcript'
-                onChange={this.onFieldUpdated.bind(this)}/>
-
-            <NumberInput
-                label="Correct Answer Index (0-based)"
-                name={ nameof<State>('correctAnswerIndex') }
-                min={-1}
-                max={100}
-                disabled={ this.state.questionType !== 'multiple_choice' }
-                value={ this.state.correctAnswerIndex }
                 onChange={this.onFieldUpdated.bind(this)}/>
 
             <RadioGroup 
